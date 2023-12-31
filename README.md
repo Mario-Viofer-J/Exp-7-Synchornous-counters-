@@ -1,11 +1,11 @@
 # Exp-6-Synchornous-counters - up counter and down counter 
-### AIM: To implement 4 bit up and down counters and validate  functionality.
+### AIM: To implement 3 bit up and down counters and validate  functionality.
 ### HARDWARE REQUIRED:  – PC, Cyclone II , USB flasher
 ### SOFTWARE REQUIRED:   Quartus prime
 ### THEORY 
 
 ## UP COUNTER 
-The counter is a digital sequential circuit and here it is a 4 bit counter, which simply means it can count from 0 to 15 and vice versa based upon the direction of counting (up/down). 
+The counter is a digital sequential circuit and here it is a 3 bit counter, which simply means it can count from 0 to 15 and vice versa based upon the direction of counting (up/down). 
 
 The counter (“count“) value will be evaluated at every positive (rising) edge of the clock (“clk“) cycle.
 The Counter will be set to Zero when “reset” input is at logic high.
@@ -17,7 +17,7 @@ The main problem facing us is to determine how to connect these flip-flops toget
 Examine the following binary count sequence, paying attention to patterns preceding the “toggling” of a bit between 0 and 1:
 Binary count sequence, paying attention to patterns preceding the “toggling” of a bit between 0 and 1.
 
-Note that each bit in this four-bit sequence toggles when the bit before it (the bit having a lesser significance, or place-weight), toggles in a particular direction: from 1 to 0.
+Note that each bit in this three-bit sequence toggles when the bit before it (the bit having a lesser significance, or place-weight), toggles in a particular direction: from 1 to 0.
 
 
 
@@ -31,8 +31,7 @@ The Q outputs of each flip-flop will serve as the respective binary bits of the 
  
  
 
-Four-bit “Up” Counter
-![image](https://user-images.githubusercontent.com/36288975/169644758-b2f4339d-9532-40c5-af40-8f4f8c942e2c.png)
+three-bit “Up” Counter
 
 
 
@@ -40,11 +39,10 @@ Four-bit “Up” Counter
 
 As well as counting “up” from zero and increasing or incrementing to some preset value, it is sometimes necessary to count “down” from a predetermined value to zero allowing us to produce an output that activates when the zero count or some other pre-set value is reached.
 
-This type of counter is normally referred to as a Down Counter, (CTD). In a binary or BCD down counter, the count decreases by one for each external clock pulse from some preset value. Special dual purpose IC’s such as the TTL 74LS193 or CMOS CD4510 are 4-bit binary Up or Down counters which have an additional input pin to select either the up or down count mode.
-![image](https://user-images.githubusercontent.com/36288975/169644844-1a14e123-7228-4ed8-81a9-eb937dff4ac8.png)
+This type of counter is normally referred to as a Down Counter, (CTD). In a binary or BCD down counter, the count decreases by one for each external clock pulse from some preset value. Special dual purpose IC’s such as the TTL 74LS193 or CMOS CD4510 are 3-bit binary Up or Down counters which have an additional input pin to select either the up or down count mode.
 
 
-4-bit Count Down Counter
+3-bit Count Down Counter
 ### Procedure
  1.Create a new project in Quartus2 software .
 2.Name the project as uc for upcounter and dc for down counter.
@@ -63,53 +61,49 @@ Program for flipflops  and verify its truth table in quartus using Verilog progr
 Developed by: Mario Viofer.J
 RegisterNumber:  212223100032
 ## UP COUNTER:
-```
-Module upcounter(clk,a);
+module up_counter(clk,q1,q2,q3);
 input clk;
-output reg[3:0];
-always @(posedge clk)
+output reg q1,q2,q3;
+always@(posedge clk)
 begin
-a[3]=(a[2]&a[1]&a[0])^a[3];
-a[2]=(a[1]&a[0])^a[2];
-a[1]=(a[0]^a[1]);
-a[0]= ^a[0];
-end
+q3=(q1&q2)^q3;
+q2=q1^q2;
+q1=1^q1;
+end 
 endmodule
-```
 ## DOWN COUNTER:
-```
-Module downcounter(clk,a);
+module COUNTER(clk,q1,q2,q3);
 input clk;
-output reg[3:0]a;
-always @(posedge clk)
+output reg q1,q2,q3;
+always@(posedge clk)
 begin
-a[3]=(~a[2]&~a[1]&~a[0])^a[3];
-a[2]=(~a[1]&~a[0])^a[2];
-a[1]=(~a[0]^a[1]);
-a[0]=1^a[0];
+q3=((~q2)&(~q1))^q3;
+q2=(~q1)^q2;
+q1=1^q1;
 end
 endmodule
-```
-
 */
 ### RTL LOGIC UP COUNTER AND DOWN COUNTER  
 ## UP COUNTER:
-![Screenshot 2023-12-18 154907](https://github.com/2005Mukesh/Exp-7-Synchornous-counters-/assets/138849308/ebe41339-2024-4c68-b298-0662a96f314b)
+![IMG-20231227-WA0012](https://github.com/Mario-Viofer-J/Exp-7-Synchornous-counters-/assets/144979232/fe98de2b-43aa-4d92-af21-27427e918989)
 
 ## DOWN COUNTER:
-![Screenshot 2023-12-18 154939](https://github.com/2005Mukesh/Exp-7-Synchornous-counters-/assets/138849308/e3baace9-535a-4290-b20e-fb79578f4f3d)
+![IMG-20231227-WA0013](https://github.com/Mario-Viofer-J/Exp-7-Synchornous-counters-/assets/144979232/0ed7dff7-a642-4821-bb3c-5d64e544f2a5)
 
 ### TIMING DIGRAMS FOR COUNTER  
 ## UP COUNTER:
-![Screenshot 2023-12-18 155042](https://github.com/2005Mukesh/Exp-7-Synchornous-counters-/assets/138849308/cd6e5859-9fd4-46ed-9826-37e235c8dced)
+![IMG-20231227-WA0016](https://github.com/Mario-Viofer-J/Exp-7-Synchornous-counters-/assets/144979232/1ce7753a-6432-41f8-a778-63b1a417fbc0)
 
 ## DOWN COUNTER:
-![Screenshot 2023-12-18 155112](https://github.com/2005Mukesh/Exp-7-Synchornous-counters-/assets/138849308/d18a7c81-94e8-4bdf-998a-18752b3e162e)
+![IMG-20231227-WA0017](https://github.com/Mario-Viofer-J/Exp-7-Synchornous-counters-/assets/144979232/faca12e6-494a-4cde-a8bf-c5f16e128ee9)
+
  ### TRUTH TABLE 
 ## UP COUNTER:
-![Screenshot 2023-12-18 155153](https://github.com/2005Mukesh/Exp-7-Synchornous-counters-/assets/138849308/64509e6f-c8ed-4122-a383-1a79c63302ca)
+![IMG-20231227-WA0014 (2)](https://github.com/Mario-Viofer-J/Exp-7-Synchornous-counters-/assets/144979232/8361606a-2123-4a32-b583-a50ba58a915f)
+
 
 ## DOWN COUNTER:
-![Screenshot 2023-12-18 155227](https://github.com/2005Mukesh/Exp-7-Synchornous-counters-/assets/138849308/835858db-efeb-40c8-98d5-889a3cf28827)
+![IMG-20231227-WA0014 (3)](https://github.com/Mario-Viofer-J/Exp-7-Synchornous-counters-/assets/144979232/17fc3b8d-d17e-455c-be27-51c32c26f9fe)
+
 ### RESULTS 
 Thus synchornous counters up counter and down counter circuit are studied and the truth table for different logic gates are verified.
